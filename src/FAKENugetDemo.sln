@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FAKENugetDemo", "FAKENugetDemo.csproj", "{862A905C-B241-4888-8E29-B7F2282259C5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FAKENugetDemo", ".\app\FAKENugetDemo\FAKENugetDemo.csproj", "{862A905C-B241-4888-8E29-B7F2282259C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FAKENugetDemoTest", "..\..\test\FAKENugetDemoTest\FAKENugetDemoTest.csproj", "{167C48EE-9F57-4AFC-A20D-473C5464B5E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FAKENugetDemoTest", ".\test\FAKENugetDemoTest\FAKENugetDemoTest.csproj", "{167C48EE-9F57-4AFC-A20D-473C5464B5E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
