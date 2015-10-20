@@ -6,11 +6,20 @@ open Fake.AssemblyInfoFile
 
 RestorePackages()
 
+// package info
+let title = "FAKENugetDemo"
+let product = title
+let guid = "23C9BAC6-E44F-44C3-B30E-81B0D104B02D"
+let authors = ["Kukukuchu"]
+let summary = "Sample project to demonstrate FAKE build of the nuget package"
+let description = "This should be a bit longer description of the project, possibly with some markdown etc. Alas, lazyness.."
+
 // Directories
 let buildDir  = @".\build\"
 let testDir   = @".\test\"
 let deployDir = @".\deploy\"
 let reportDir = @".\reports\"
+let packagingDir = @".\packagingArea\"
 
 // version info
 let version = "0.1"  // it will be retrieved from CI server
@@ -22,10 +31,10 @@ Target "Clean" (fun _ ->
 
 Target "SetAssemblyInfos" (fun _ ->
     CreateCSharpAssemblyInfo "./src/app/FAKENugetDemo/Properties/AssemblyInfo.cs"
-        [Attribute.Title "FAKENugetDemo"
-         Attribute.Description "Sample project to demonstrate FAKE build of the nuget package"
-         Attribute.Guid "23C9BAC6-E44F-44C3-B30E-81B0D104B02D"
-         Attribute.Product "FAKE Sample"
+        [Attribute.Title title
+         Attribute.Description summary
+         Attribute.Guid guid
+         Attribute.Product product
          Attribute.Version version
          Attribute.FileVersion version]
 )
@@ -53,15 +62,46 @@ Target "NUnitTest" (fun _ ->
 )
 
 Target "Zip" (fun _ ->
+    let zipDir = deployDir @@ "zip"
+    ensureDirectory zipDir
     !! (buildDir + "\**\*.*")
       -- "*.zip"
-      |> Zip buildDir (deployDir + "FAKENugetDemo." + version + ".zip")
+      |> Zip buildDir (zipDir @@ ("FAKENugetDemo." + version + ".zip"))
+)
+
+
+
+Target "CreatePackage" (fun _ ->
+    !! (buildDir + "\**\*.*")
+      -- "*.zip"
+        // Copy all the package files into a package folder
+        |>CopyFiles packagingDir
+
+    let outputDir = deployDir @@ "nuget"
+    ensureDirectory outputDir
+    NuGet (fun p -> 
+            {p with
+                Authors = authors
+                Project = title
+                Description = description                               
+                OutputPath = outputDir
+                Summary = summary
+                WorkingDir = packagingDir
+                Version = version
+                AccessKey = "someStrongPassword" //environVar "nugetAccessKey"
+                Publish = true
+                PublishUrl = "http://kukukuchu-nuget-server.azurewebsites.net/" 
+                Files = [
+                            ("\**\*.*", None, None)
+                ]}) 
+                "NugetTemplate.nuspec"
 )
 
 Target "BuildWithoutTests" DoNothing
 Target "RunTests" DoNothing
 Target "Build" DoNothing
 Target "Test" DoNothing
+Target "Publish" DoNothing
 
 "Clean"
   ==> "SetAssemblyInfos"
@@ -77,7 +117,10 @@ Target "Test" DoNothing
 
 "Zip" ==> "Build"
 "RunTests" ==> "Build"
+
 "Zip" ==> "BuildWithoutTests"
+
+"RunTests" ==> "CreatePackage" ==> "Publish"
 
 // start build
 RunTargetOrDefault "Build"

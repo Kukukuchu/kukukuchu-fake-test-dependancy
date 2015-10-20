@@ -1,4 +1,4 @@
 @echo off
 cls
-"packages\FAKE\tools\Fake.exe" build.fsx target=Build
+"packages\FAKE\tools\Fake.exe" build.fsx target=Publish
 pause
