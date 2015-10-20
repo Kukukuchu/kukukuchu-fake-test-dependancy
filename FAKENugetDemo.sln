@@ -3,9 +3,22 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FAKENugetDemo", ".\app\FAKENugetDemo\FAKENugetDemo.csproj", "{862A905C-B241-4888-8E29-B7F2282259C5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FAKENugetDemo", "src\app\FAKENugetDemo\FAKENugetDemo.csproj", "{862A905C-B241-4888-8E29-B7F2282259C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FAKENugetDemoTest", ".\test\FAKENugetDemoTest\FAKENugetDemoTest.csproj", "{167C48EE-9F57-4AFC-A20D-473C5464B5E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FAKENugetDemoTest", "src\test\FAKENugetDemoTest\FAKENugetDemoTest.csproj", "{167C48EE-9F57-4AFC-A20D-473C5464B5E0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{59248A0D-D912-4D15-B339-ECE9A7BB89F9}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{807C1A2D-9170-40E0-883D-53956C4AEC97}"
+	ProjectSection(SolutionItems) = preProject
+		build.bat = build.bat
+		build.fsx = build.fsx
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
