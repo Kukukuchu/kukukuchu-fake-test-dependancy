@@ -11,6 +11,7 @@ namespace FAKENugetDemo
     {
         public string GiveMeRandomQuote()
         {
+            var a = 1;
             var quotes = new List<string>();
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
             using (var reader = new StreamReader(assembly.GetManifestResourceStream("FAKENugetDemo.Quotes.txt"), Encoding.UTF8))
