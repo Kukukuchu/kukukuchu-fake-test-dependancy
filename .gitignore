@@ -199,7 +199,11 @@ FakesAssemblies/
 .fake/
 
 #FAKE build dirs
+/#test/
 /test/
+/#build/
 /build/
+/#deploy/
 /deploy/
+/#packagingArea/
 /packagingArea/

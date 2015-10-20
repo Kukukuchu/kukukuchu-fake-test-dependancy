@@ -6,10 +6,10 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescriptionAttribute("Sample project to demonstrate FAKE build of the nuget package")]
 [assembly: GuidAttribute("23C9BAC6-E44F-44C3-B30E-81B0D104B02D")]
 [assembly: AssemblyProductAttribute("FAKENugetDemo")]
-[assembly: AssemblyVersionAttribute("0.1")]
-[assembly: AssemblyFileVersionAttribute("0.1")]
+[assembly: AssemblyVersionAttribute("0.8")]
+[assembly: AssemblyFileVersionAttribute("0.8")]
 namespace System {
     internal static class AssemblyVersionInformation {
-        internal const string Version = "0.1";
+        internal const string Version = "0.8";
     }
 }

@@ -43,7 +43,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Quotes.txt">
+    <EmbeddedResource Include="Quotes.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="RequiredFiles.target">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

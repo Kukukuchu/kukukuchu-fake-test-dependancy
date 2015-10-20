@@ -15,18 +15,20 @@ let summary = "Sample project to demonstrate FAKE build of the nuget package"
 let description = "This should be a bit longer description of the project, possibly with some markdown etc. Alas, lazyness.."
 
 // Directories
-let buildDir  = @".\build\"
-let testDir   = @".\test\"
-let deployDir = @".\deploy\"
-let reportDir = @".\reports\"
-let packagingDir = @".\packagingArea\"
+let buildDir  = @".\#build\"
+let testDir   = @".\#test\"
+let deployDir = @".\#deploy\"
+let reportDir = @".\#reports\"
+let packagingDir = @".\#packagingArea\"
+let nugetOutputDir = deployDir @@ "nuget"
+let zipOutputDir = deployDir @@ "zip"
 
 // version info
-let version = "0.1"  // it will be retrieved from CI server
+let version = "0.8"  // it will be retrieved from CI server
 
 // Targets
 Target "Clean" (fun _ ->
-    CleanDirs [buildDir; testDir; deployDir; reportDir]
+    CleanDirs [buildDir; testDir; deployDir; reportDir; packagingDir; nugetOutputDir; zipOutputDir]
 )
 
 Target "SetAssemblyInfos" (fun _ ->
@@ -62,11 +64,11 @@ Target "NUnitTest" (fun _ ->
 )
 
 Target "Zip" (fun _ ->
-    let zipDir = deployDir @@ "zip"
-    ensureDirectory zipDir
+    
+    ensureDirectory zipOutputDir
     !! (buildDir + "\**\*.*")
       -- "*.zip"
-      |> Zip buildDir (zipDir @@ ("FAKENugetDemo." + version + ".zip"))
+      |> Zip buildDir (zipOutputDir @@ ("FAKENugetDemo." + version + ".zip"))
 )
 
 
@@ -77,14 +79,13 @@ Target "CreatePackage" (fun _ ->
         // Copy all the package files into a package folder
         |>CopyFiles packagingDir
 
-    let outputDir = deployDir @@ "nuget"
-    ensureDirectory outputDir
+    ensureDirectory nugetOutputDir
     NuGet (fun p -> 
             {p with
                 Authors = authors
                 Project = title
                 Description = description                               
-                OutputPath = outputDir
+                OutputPath = nugetOutputDir
                 Summary = summary
                 WorkingDir = packagingDir
                 Version = version
@@ -92,8 +93,11 @@ Target "CreatePackage" (fun _ ->
                 Publish = true
                 PublishUrl = "http://kukukuchu-nuget-server.azurewebsites.net/" 
                 Files = [
-                            ("\**\*.*", None, None)
-                ]}) 
+                            ("\**\*.dll", Some "lib", None)
+                            //("\**\*.txt", Some "Build", None)
+                            //("\**\*.target", Some "Build", None)
+                ]
+                IncludeReferencedProjects = true}) 
                 "NugetTemplate.nuspec"
 )
 
