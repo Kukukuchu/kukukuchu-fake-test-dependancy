@@ -3,6 +3,7 @@
 
 open Fake
 open Fake.AssemblyInfoFile
+open Fake.Git
 
 RestorePackages()
 
@@ -24,7 +25,8 @@ let nugetOutputDir = deployDir @@ "nuget"
 let zipOutputDir = deployDir @@ "zip"
 
 // version info
-let version = "0.8"  // it will be retrieved from CI server
+let version = AppVeyor.AppVeyorEnvironment.BuildVersion
+let commitHash = Information.getCurrentSHA1.ToString()
 
 // Targets
 Target "Clean" (fun _ ->
@@ -38,7 +40,8 @@ Target "SetAssemblyInfos" (fun _ ->
          Attribute.Guid guid
          Attribute.Product product
          Attribute.Version version
-         Attribute.FileVersion version]
+         Attribute.FileVersion version
+         Attribute.Metadata("githash", commitHash)]
 )
 
 Target "BuildApp" (fun _ ->
@@ -89,7 +92,7 @@ Target "CreatePackage" (fun _ ->
                 Summary = summary
                 WorkingDir = packagingDir
                 Version = version
-                AccessKey = "someStrongPassword" //environVar "nugetAccessKey"
+                AccessKey = environVar "nugetAccessKey"
                 Publish = true
                 PublishUrl = "http://kukukuchu-nuget-server.azurewebsites.net/" 
                 Files = [
