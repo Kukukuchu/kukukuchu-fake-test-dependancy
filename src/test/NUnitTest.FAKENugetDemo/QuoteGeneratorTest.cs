@@ -1,25 +1,26 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
+using FAKENugetDemo;
 
-namespace FAKENugetDemo
+namespace NUnitTest.FAKENugetDemo
 {
-    [TestClass]
+    [TestFixture]
     public class QuoteGeneratorTest
     {
-        [TestMethod]
+        [Test]
         public void QuoteStartsWithQuotes()
         {
             var quotegen = new QuoteGenerator();
             string quote = quotegen.GiveMeRandomQuote();
-            StringAssert.StartsWith(quote, "\"");
+            StringAssert.StartsWith("\"", quote, "The quote should start with quotation mark");
         }
 
-        [TestMethod]
+        [Test]
         public void QuoteEndsWithQuotes()
         {
             var quotegen = new QuoteGenerator();
             string quote = quotegen.GiveMeRandomQuote();
-            StringAssert.EndsWith(quote, "\"");
+            StringAssert.EndsWith("\"", quote, "The quote should end with quotation mark");
         }
     }
 }
